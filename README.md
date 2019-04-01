@@ -6,7 +6,7 @@
 
 http://www.primalsecurity.net/0x7-exploit-tutorial-bad-character-analysis/
 
-'\x90' change memory address by +230 + '\x7d\x8d\xb6\x7c' + '\x43' change memory address by 366
+'\x90' increment memory address by 230 + '\x7d\x8d\xb6\x7c' + '\x43' increment memory address by 366
 
 The python script says in Assembly opcodes..
 
@@ -76,6 +76,25 @@ I need to know how msfvenom eliminates bad bytes and substitutes them using a en
 
 We do that. We return a list of substituted opcode instructions to replace bad chars from.
 
+# Frameworks to use
+
+http://www.unicorn-engine.org/docs/tutorial.html
+
+But make sure it accepts input from stdin and then returns the opcodes from the register for comparison. Since the user probably doesn't give a shit about how it works under the hood, except...
+
+1. What characters we eliminated
+2. What characters we replaced it with
+
+And a fancy new asm file. 
+
+We also have to find out how to make unicorn return to us the exact instruction so that way we have a list of replacement opcodes. 
+
+So we have two output file streams.
+
+1. Re-rendered opcodes that includes the incorrect ones
+2. Library list of what instruction the opcodes actually rendered to
+
+Also give the Bruter a reverse-shellcode option, a lot of people might forget that the string must be fed backwards. So Slayer-Ranger-Bruter -R -i opcodes.asm -t qemuhost -p qemulistener -o fixedshellcode
 
 # Slayer-Ranger, shellcode tester and generator with retargetable CPU architectures. Coming to a Github Repo near you.
 
